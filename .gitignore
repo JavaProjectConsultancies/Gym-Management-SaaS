@@ -1,0 +1,67 @@
+# ------------------------------------------------------------
+# Dependencies
+# ------------------------------------------------------------
+node_modules/
+.pnpm-store/
+
+# ------------------------------------------------------------
+# Build output
+# ------------------------------------------------------------
+dist/
+dist-ssr/
+build/
+coverage/
+*.tsbuildinfo
+
+# ------------------------------------------------------------
+# Environment & secrets — NEVER commit real credentials
+# ------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+serviceAccount*.json
+service-account*.json
+credentials*.json
+firebase-debug.log*
+.firebase/
+
+# Google Apps Script (clasp) — project IDs and OAuth tokens
+.clasp.json
+.clasprc.json
+
+# Cloudflare
+.wrangler/
+.dev.vars
+
+# ------------------------------------------------------------
+# Logs
+# ------------------------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ------------------------------------------------------------
+# Editors & OS
+# ------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.sw?
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ------------------------------------------------------------
+# Android (future mobile/ app)
+# ------------------------------------------------------------
+mobile/**/.gradle/
+mobile/**/local.properties
+mobile/**/*.keystore
+mobile/**/*.jks

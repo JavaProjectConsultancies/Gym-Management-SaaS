@@ -1,0 +1,15 @@
+{
+  "name": "gym-management-saas-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Google Apps Script backend — clasp tooling only (source lives in src/).",
+  "scripts": {
+    "login": "clasp login",
+    "status": "clasp status",
+    "push": "clasp push",
+    "open": "clasp open-script"
+  },
+  "devDependencies": {
+    "@google/clasp": "^3.4.1"
+  }
+}

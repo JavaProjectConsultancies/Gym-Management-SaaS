@@ -1,0 +1,192 @@
+@import 'tailwindcss';
+
+/* ==================================================================
+   Design tokens
+   ------------------------------------------------------------------
+   Declared with Tailwind v4 `@theme`, so every token is available both
+   as a CSS variable (var(--color-brand-600)) and as a utility class
+   (bg-brand-600, text-sidebar-foreground, rounded-card, shadow-card…).
+   Change the palette here — never hard-code colours in components.
+   ================================================================== */
+@theme {
+  /* Typography */
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, monospace;
+
+  /* Brand — energetic emerald, reads as "health & performance" */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+
+  /* Accent — warm amber for highlights and calls-to-action */
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+
+  /* Workspace (light) */
+  --color-canvas: #f4f6f9; /* app background */
+  --color-surface: #ffffff; /* cards, panels */
+  --color-surface-muted: #f8fafc;
+  --color-border: #e3e8ef;
+  --color-foreground: #0f172a; /* primary text */
+  --color-muted: #64748b; /* secondary text */
+  --color-subtle: #94a3b8; /* tertiary text, placeholders */
+
+  /* Sidebar (dark) */
+  --color-sidebar: #0b1120;
+  --color-sidebar-elevated: #131b2e;
+  --color-sidebar-border: #1e293b;
+  --color-sidebar-foreground: #e2e8f0;
+  --color-sidebar-muted: #8391a7;
+  --color-sidebar-active: #10b981;
+
+  /* Semantic status colours */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
+
+  /* Radius */
+  --radius-control: 0.5rem;
+  --radius-card: 0.875rem;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 1px 3px rgb(15 23 42 / 0.06);
+  --shadow-raised: 0 4px 12px rgb(15 23 42 / 0.08), 0 2px 4px rgb(15 23 42 / 0.04);
+
+  /* Layout */
+  --spacing-sidebar: 16rem;
+  --spacing-topbar: 4rem;
+}
+
+/* ==================================================================
+   Base layer
+   ================================================================== */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-foreground;
+    font-feature-settings:
+      'cv11' 1,
+      'ss01' 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight text-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
+
+  /* ---------- Native-app feel ---------- */
+  html {
+    /* No grey flash on tap, no double-tap zoom delay, no text inflation on rotate. */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    /* No pull-to-refresh / rubber-band of the whole page; lists scroll naturally. */
+    overscroll-behavior-y: none;
+  }
+
+  /* Controls behave like app controls, not selectable web text. */
+  button,
+  a,
+  nav,
+  [role='tab'] {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* iOS zooms into inputs with a font smaller than 16px; keep 16px on phones. */
+  @media (max-width: 639px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  dialog::backdrop {
+    background: rgb(2 6 23 / 0.5);
+    backdrop-filter: blur(2px);
+  }
+}
+
+/* Safe areas (notch, home indicator) when running full-screen. */
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+/* Room for the bottom tab bar plus a floating action button (3.5rem + margins),
+   so the last list row can always scroll clear of the button (found in testing). */
+@utility pb-tabbar {
+  padding-bottom: calc(4.5rem + 5rem + env(safe-area-inset-bottom));
+}
+@utility bottom-tabbar {
+  bottom: calc(4.5rem + env(safe-area-inset-bottom));
+}
+
+/* Screen transition and bottom-sheet motion. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@utility animate-page-in {
+  animation: page-in 180ms ease-out;
+}
+@utility animate-sheet-up {
+  animation: sheet-up 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+@utility animate-fade-in {
+  animation: fade-in 160ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
