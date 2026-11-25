@@ -90,16 +90,22 @@ The site behaves like a mobile app:
 | `web/vite.config.ts`         | React plugin, Tailwind v4 plugin, `@` → `src` alias                   |
 | `.editorconfig`              | UTF-8, LF, 2-space indent                                             |
 
-## Deployment (later — Cloudflare Pages)
+## Deployment (Cloudflare Workers Builds, from GitHub)
 
-Not configured yet. Expected settings:
+Repository: GitHub → Cloudflare dashboard → Workers & Pages → the `gym-management-saas` project.
 
 - Root directory: `web`
 - Build command: `npm run build`
-- Output directory: `dist`
-- Environment variables: set the `VITE_*` values in the Cloudflare dashboard.
+- Deploy command: `npx wrangler deploy` (uses `web/wrangler.jsonc`: serves `dist` as static
+  assets; unknown paths fall back to `index.html` so client-side routes work)
+- **Build** variables (Settings → Build → Variables and secrets — _not_ the runtime
+  "Variables" list, which a static site does not use): all `VITE_*` values from
+  `web/.env.local`, plus `NODE_VERSION` = `24` (Firebase 13 asks for Node ≥ 24.12).
+- Add the site's domain (`*.workers.dev` or your own) in Firebase console → Authentication →
+  Settings → Authorized domains.
 
-`web/public/_redirects` already rewrites all paths to `index.html` so client-side routes work.
+Do not add a `_redirects` file: Cloudflare Workers rejects the SPA rule (`/* /index.html 200`)
+as an infinite loop; `not_found_handling` in `wrangler.jsonc` replaces it.
 
 ## Not configured yet
 

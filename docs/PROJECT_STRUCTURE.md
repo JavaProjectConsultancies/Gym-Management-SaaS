@@ -4,7 +4,7 @@
 Gym-Management-SaaS/
 ├── mobile/                     Reserved for a future Android app
 ├── web/                        Frontend application
-│   ├── public/                 Static files copied as-is (favicon, Cloudflare _redirects)
+│   ├── public/                 Static files copied as-is (favicon, icons, manifest, service worker)
 │   ├── src/
 │   │   ├── assets/             Images, fonts and other imported assets
 │   │   ├── components/

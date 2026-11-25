@@ -1,0 +1,13 @@
+// Cloudflare Workers static-assets deployment (used by `npx wrangler deploy`
+// in Cloudflare Workers Builds). No server code: Cloudflare serves web/dist.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gym-management-saas",
+  "compatibility_date": "2026-11-23",
+  "assets": {
+    "directory": "./dist",
+    // Client-side routes (/members/…, /payments/…) fall back to index.html.
+    // This replaces public/_redirects, which Workers rejects.
+    "not_found_handling": "single-page-application"
+  }
+}
